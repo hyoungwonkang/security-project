@@ -1,0 +1,40 @@
+
+server:
+  port: 9000
+
+spring:
+  application:
+    name: security-project
+
+  # DB 연결 정보
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_board?serverTimezone=Asia/Seoul&characterEncoding=utf-8
+    username: react
+    password: Mysql1234!!
+
+  # 파일 업로드 설정
+  servlet:
+    multipart:
+      max-request-size: 30MB  # 클라이언트가 여러 파일을 어보드할때 요청의 총 크기가 30MB 초과 안됨
+      max-file-size: 30MB     # 개별 업로드 파일의 최대 크기
+      location: /tmp/upload   # 임시 디렉토리
+
+  # JPA 설정  
+  jpa:
+    hibernate:
+      ddl-auto: update   
+      # show-sql: true     # 콘솔에 출력
+    properties:
+      hibernate:       
+        format_sql: true
+      hibernate.default_batch_fetch_size: 50  # BatchSize 기본값 설정. JPA에서 지연 로딩(Lazy Loading) 최적화를 위해 사용한다.
+
+
+# Logging
+logging:
+  level:
+    root: INFO
+    '[org.hibernate.SQL]': DEBUG             # SQL문 로그 출력
+    '[org.hibernate.orm.jdbc.bind]': TRACE   # 중요 : 바인딩된 값 출력
+    '[org.springframework.securityapp]': TRACE # Security Logging
