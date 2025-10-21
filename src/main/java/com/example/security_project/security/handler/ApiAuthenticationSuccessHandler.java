@@ -2,11 +2,14 @@ package com.example.security_project.security.handler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.example.security_project.dto.MemberDto;
+import com.example.security_project.util.JwtUtil;
+import com.google.gson.Gson;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,16 +24,30 @@ public class ApiAuthenticationSuccessHandler implements AuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException, ServletException {
         
+       log.info("authentication : {}", authentication);
+
         // email
         MemberDto memberDto = (MemberDto) authentication.getPrincipal();
-        String email = memberDto.getEmail();
 
-        log.info("---------------------------------------------");
-        // Context-Type 설정
-        response.setContentType("text/html; charset=utf-8");
+        // claims
+        Map<String, Object> claims = memberDto.getClaims();
+
+        // Access token, Rrefresh token 생성
+        String accessToken = JwtUtil.generateToken(claims, 10); // 10분
+
+        String refreshToken = JwtUtil.generateToken(claims, 60 * 24); // 1일
+
+        claims.put("accessToken", accessToken);
+        claims.put("refreshToken", refreshToken);
+
+        Gson gson = new Gson();
+
+        String jsonStr = gson.toJson(claims);
+
+        response.setContentType("application/json: charset=utf-8");
 
         PrintWriter pw = response.getWriter();
-        pw.println("<h1>" + email + "님 환영합니다!</h1>");
+        pw.println(jsonStr);
         pw.close();
     }
     
