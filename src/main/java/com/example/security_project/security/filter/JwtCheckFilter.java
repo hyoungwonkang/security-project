@@ -30,7 +30,7 @@ public class JwtCheckFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         log.info("uri : {}, method : {}", paths, method);
 
-        if (method.equalsIgnoreCase("OPTIONS") || paths.equals("/api/v1/members/login")) {
+        if (method.equalsIgnoreCase("OPTIONS") || paths.equals("/api/v1/members/login") || paths.startsWith("/api/v1/refresh")) {
             return true;
         }
 
