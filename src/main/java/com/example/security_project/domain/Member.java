@@ -11,7 +11,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,11 +33,10 @@ public class Member {
     private String nickName;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "member_role",  joinColumns = @JoinColumn(name = "email", referencedColumnName = "email"))
-    @OrderColumn(name = "order_index")
+    @CollectionTable(name = "member_role", joinColumns = @JoinColumn(name = "email", referencedColumnName = "email"))
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    List<MemberRole> roles = new ArrayList<>(); // ADMIN, USER, MANAGER
+    List<MemberRole> roles = new ArrayList<>();
 
     public void addRole(MemberRole role) {
         if (!roles.contains(role)) {

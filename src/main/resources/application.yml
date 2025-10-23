@@ -23,8 +23,8 @@ spring:
   # JPA 설정  
   jpa:
     hibernate:
-      ddl-auto: update   
-      # show-sql: true     # 콘솔에 출력
+      ddl-auto: update
+    show-sql: true     # 콘솔에 출력
     properties:
       hibernate:       
         format_sql: true
