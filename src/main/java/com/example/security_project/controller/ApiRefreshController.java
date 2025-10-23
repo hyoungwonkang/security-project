@@ -37,7 +37,7 @@ public class ApiRefreshController {
             Map<String, Object> claims = JwtUtil.validateToken(refreshToken);
             log.info("claims: {}", claims);
 
-            String newAccessToken = JwtUtil.generateToken(claims, 10); // 10분
+            String newAccessToken = JwtUtil.generateToken(claims, 1); // 1분
 
             log.info("exp: {}", claims.get("exp")); // 만료 시간 : 초 단위(sec)
 
@@ -53,7 +53,7 @@ public class ApiRefreshController {
         try {
             JwtUtil.validateToken(accessToken);
         } catch (Exception e) {
-            if (e.getMessage().equals("TOKEN_EXPIRED")) {
+            if (e.getMessage().equals("Expired")) {  // CustomJwtException에서 "Expired" 메시지 사용
                 return true;
             }
         }

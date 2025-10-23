@@ -33,7 +33,7 @@ public class ApiAuthenticationSuccessHandler implements AuthenticationSuccessHan
         Map<String, Object> claims = memberDto.getClaims();
 
         // Access token, Rrefresh token 생성
-        String accessToken = JwtUtil.generateToken(claims, 10); // 10분
+        String accessToken = JwtUtil.generateToken(claims, 1);
 
         String refreshToken = JwtUtil.generateToken(claims, 60 * 24); // 1일
 
