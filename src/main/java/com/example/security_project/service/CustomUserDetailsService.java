@@ -1,6 +1,5 @@
 package com.example.security_project.service;
 
-
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,13 +23,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.getWithRoles(email);
 
-        if(member == null){
+        if (member == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
         MemberDto memberDto = new MemberDto(email, member.getPassword(), member.getNickName(),
             member.getRoles().stream().map(role -> role.name()).collect(Collectors.toList()));
-        
+
         log.info("memberDto: ", memberDto.toString());
         return memberDto;
     }

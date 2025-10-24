@@ -1,7 +1,9 @@
 package com.example.security_project.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -75,4 +77,12 @@ public class MemberDto extends User {
         this.roleNames = roleNames;
     }
 
+    public Map<String, Object> getClaims() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", email);
+        map.put("password", password);
+        map.put("nickName", nickName);
+        map.put("roleNames", roleNames);
+        return map;
+    }
 }

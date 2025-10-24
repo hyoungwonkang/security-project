@@ -24,15 +24,15 @@ public class ApiAuthenticationSuccessHandler implements AuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException, ServletException {
         
-       log.info("authentication : {}", authentication);
+        log.info("authentication: {}", authentication);
 
         // email
         MemberDto memberDto = (MemberDto) authentication.getPrincipal();
 
         // claims
         Map<String, Object> claims = memberDto.getClaims();
-
-        // Access token, Rrefresh token 생성
+        
+        // Access token, Refresh token 생성
         String accessToken = JwtUtil.generateToken(claims, 1);
 
         String refreshToken = JwtUtil.generateToken(claims, 60 * 24); // 1일
@@ -50,5 +50,5 @@ public class ApiAuthenticationSuccessHandler implements AuthenticationSuccessHan
         pw.println(jsonStr);
         pw.close();
     }
-    
+
 }
